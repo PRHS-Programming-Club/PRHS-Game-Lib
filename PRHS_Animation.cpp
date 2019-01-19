@@ -17,7 +17,6 @@ namespace PRHS {
 	}
 
 	Animation::Animation(const std::string& pathToFile, const int updateTime) {
-		
 		std::ifstream inputFile(pathToFile, std::ios::in); //Attempt to open file
 
 		if (!inputFile) { //Check if file exists
@@ -70,7 +69,6 @@ namespace PRHS {
 			return *animationIds.begin();
 		}
 		return *idIterator++; //Increment iterator
-		//return *std::prev(idIterator, 1);
 	}
 
 	std::string Animation::getFrame(const int frameIndex) {
@@ -106,6 +104,7 @@ namespace PRHS {
 		if (textureManager.hasId(textureManagerId)) { //Check if the texture exists
 			animationIds.push_back(textureManagerId); //If it does, add it to the animation
 			animation.push_back(textureManager.getTexture(textureManagerId)); //Get a shared pointer to the texture to establish usage
+			idIterator = animationIds.begin();
 		}
 		else {
 			throw invalid_id("Texture with id \"" + textureManagerId + "\" does not exist."); //Throw exception if the texture does not exist
@@ -115,6 +114,7 @@ namespace PRHS {
 	void Animation::append(const Animation& animation) {
 		this->animationIds.insert(this->animationIds.begin(), animation.animationIds.begin(), animation.animationIds.end()); //Append the new animationIds vector to the old one
 		this->animation.insert(this->animation.begin(), animation.animation.begin(), animation.animation.end()); //Append the new animation vector to the old one
+		idIterator = animationIds.begin();
 	}
 
 	void Animation::operator+=(const std::string& textureManagerId) {
