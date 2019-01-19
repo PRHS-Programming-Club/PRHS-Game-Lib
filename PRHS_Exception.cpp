@@ -2,11 +2,10 @@
 
 Version 2.0.0 of the PRHS Game Library
 
-Last Modified on August 5th, 2017
+Last Modified on January 18, 2019
 
 */
 
-#include "stdafx.h"
 #include "PRHS_Exception.h"
 
 namespace PRHS {
