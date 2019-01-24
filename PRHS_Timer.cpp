@@ -36,15 +36,15 @@ namespace PRHS {
 		state = TIMER_RESET;
 	}
 
-	bool Timer::timeElapsed() {
+	bool Timer::timeElapsed() const {
 		return (previousTimeElapsed + SDL_GetTicks() - timeStarted) >= timerDuration;
 	}
 
-	int Timer::getTimeElapsed() {
+	int Timer::getTimeElapsed() const {
 		return previousTimeElapsed + SDL_GetTicks() - timeStarted;
 	}
 
-	int Timer::getDuration() {
+	int Timer::getDuration() const {
 		return timerDuration;
 	}
 
@@ -52,7 +52,7 @@ namespace PRHS {
 		timerDuration = newDuration;
 	}
 
-	TimerState Timer::getState() {
+	TimerState Timer::getState() const {
 		return state;
 	}
 

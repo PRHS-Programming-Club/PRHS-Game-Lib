@@ -204,7 +204,7 @@ namespace PRHS {
 	}
 
 	void Window::render(const Entity& entity) {
-		SDL_Rect conversionRect = convertRect(entity.position); //Convert the PRHS::Rect to a SDL_Rect
+		SDL_Rect conversionRect = convertRect(static_cast< PRHS::Rect >(entity.position)); //Convert the PRHS::Rect to a SDL_Rect
 
 		//Handle scaling
 		conversionRect.x *= scaleFactor;
@@ -220,8 +220,8 @@ namespace PRHS {
 	}
 
 	void Window::render(std::vector<Entity>& entityList) {
-		for (std::vector<Entity>::iterator i = entityList.begin(); i != entityList.end(); i++) { //Iterate through all entities
-			render((*i).skinId, (*i).position); //Render entity
+		for (const Entity& i : entityList) { //Iterate through all entities
+			render(i); //Render entity
 		}
 	}
 
@@ -277,12 +277,12 @@ namespace PRHS {
 	}
 
 	void Window::refreshBackground(const Entity& entity) {
-		refreshBackground(entity.position);
+		refreshBackground(static_cast< Rect >(entity.position));
 	}
 
 	void Window::refreshBackground(std::vector<Entity>& entityList) {
-		for (std::vector<Entity>::iterator i = entityList.begin(); i != entityList.end(); i++) { //Iterate through all entities
-			refreshBackground((*i).position); //Refresh the background around them
+		for (const Entity& i : entityList) { //Iterate through all entities
+			refreshBackground(i); //Refresh the background around them
 		}
 	}
 

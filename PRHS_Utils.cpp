@@ -38,6 +38,14 @@ namespace PRHS {
 		return output;
 	}
 
+	Rect::operator SDL_Rect() const {
+		return SDL_Rect{ x, y, w, h };
+	}
+
+	FloatRect::operator Rect() const {
+		return Rect{ x, y, w, h, r };
+	}
+
 	void init() {
 		static bool wasInit = false; //Static variable to store whether or not the library is already initialized. Maintains state between function calls
 

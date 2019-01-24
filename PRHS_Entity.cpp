@@ -13,18 +13,23 @@ namespace PRHS {
 
 	TextureManager& Entity::textureManager = TextureManager::getInstance();
 
-	Entity::Entity() {
-		skinId = "NO SKIN";
+	Entity::Entity() :
+		skinId("NO SKIN"),
+		position{ 0.0, 0.0, 0.0, 0.0, 0.0 },
+		skin()
+	{
+
 	}
 
-	Entity::Entity(const std::string& textureManagerId, const Rect& position) {
-
+	Entity::Entity(const std::string& textureManagerId, const FloatRect& newPosition) :
+		skinId("NO SKIN"),
+		skin(),
+		position(newPosition)
+	{
 		setSkin(textureManagerId); //Set the entity's skin
-
-		this->position = position;
 	}
 
-	void Entity::updatePosition(const Rect& adjustment, const EntityUpdateParam& updateParam) {
+	void Entity::updatePosition(const FloatRect& adjustment, const EntityUpdateParam& updateParam) {
 		switch (updateParam) {
 		case UPDATE_ABSOLUTE:
 			position = adjustment;
@@ -39,7 +44,7 @@ namespace PRHS {
 		}
 	}
 
-	void Entity::setPosition(const int& newX, const int& newY, const int& newW, const int& newH, const int& newR) {
+	void Entity::setPosition(int newX, int newY, int newW, int newH, int newR) {
 		if (newX != VOID) {
 			position.x = newX;
 		}
@@ -57,11 +62,12 @@ namespace PRHS {
 		}
 	}
 
-	Rect Entity::getPosition() {
+	FloatRect Entity::getPosition() {
 		return position;
 	}
 
-	bool Entity::checkCollision(const Rect& rect) {
+	bool Entity::checkCollision(const FloatRect& rect) {
+		// TODO: Use floats, add rotation support
 		SDL_Rect position1 = {position.x, position.y, position.w, position.h};
 		SDL_Rect position2 = {rect.x, rect.y, rect.w, rect.h};
 		return SDL_HasIntersection(&position1, &position2);
@@ -72,6 +78,7 @@ namespace PRHS {
 	}
 
 	bool Entity::onScreen() {
+		// TODO: Create more accurate bounding box from rotated position
 		Window& window = Window::getInstance();
 		SDL_Rect screen = { 0, 0, window.getWidth(), window.getHeight()};
 		SDL_Rect position = { this->position.x, this->position.y, this->position.w, this->position.h };

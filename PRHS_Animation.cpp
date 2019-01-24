@@ -7,6 +7,7 @@ Last Modified on January 18, 2019
 */
 
 #include "PRHS_Animation.h"
+#include <algorithm>
 
 namespace PRHS {
 
@@ -27,6 +28,9 @@ namespace PRHS {
 			std::string line;
 			while (!inputFile.eof()) {
 				std::getline(inputFile, line); //Read next line
+				if (line == "") {
+					continue;
+				}
 
 				if (!textureManager.hasId(line)) { //Check if image was already loaded based on its path. The image's path is used as its ID
 					textureManager.createTexture(line, line); //If it was not already loaded, load the image. The TextureManager class will check if it is a valid file
@@ -43,21 +47,27 @@ namespace PRHS {
 		updateTimer = Timer(updateTime);
 	}
 
-	Animation::Animation(const Animation& animationToCopy) {
-		animation = animationToCopy.animation; //Copy the vector of texture pointers
-		animationIds = animationToCopy.animationIds; //Copy the vector of texture Ids
-		idIterator = animationIds.begin(); //Ensure the iterator is valid
-		updateTimer = animationToCopy.updateTimer; //Copy timer
+	Animation::Animation(const Animation& other) :
+		animation(other.animation),
+		animationIds(other.animationIds),
+		idIterator(animationIds.begin() + other.currentPosition()),
+		updateTimer(other.updateTimer)
+	{
+
 	}
 
-	void Animation::operator=(const Animation& animationToCopy) {
-		animation = animationToCopy.animation; //Copy the vector of textureManagerIds
-		animationIds = animationToCopy.animationIds; //Copy the vector of texture Ids
-		idIterator = animationIds.begin(); //Ensure the iterator is valid
-		updateTimer = animationToCopy.updateTimer; //Copy timer
+	Animation::Animation(Animation&& other)
+		: Animation()
+	{
+		swap(*this, other);
 	}
 
-	int Animation::size() {
+	Animation& Animation::operator=(Animation other) {
+		swap(*this, other);
+		return *this;
+	}
+
+	int Animation::size() const {
 		return animationIds.size();
 	}
 
@@ -75,7 +85,7 @@ namespace PRHS {
 		return animationIds.at(frameIndex);
 	}
 
-	int Animation::currentPosition() {
+	int Animation::currentPosition() const {
 		return idIterator - animationIds.begin(); //Get difference between current position and the beginning of the vector
 	}
 
@@ -83,7 +93,7 @@ namespace PRHS {
 		idIterator = animationIds.begin() + newPosition;
 	}
 
-	bool Animation::atEnd() {
+	bool Animation::atEnd() const {
 		return idIterator == animationIds.end(); //Check if the iterator is at the end
 	}
 
@@ -96,7 +106,7 @@ namespace PRHS {
 		updateTimer.setDuration(newUpdateTime);
 	}
 
-	int Animation::getUpdateTime() {
+	int Animation::getUpdateTime() const {
 		return updateTimer.getDuration();
 	}
 
@@ -137,7 +147,15 @@ namespace PRHS {
 		return output;
 	}
 
-	bool Animation::updateTimeElapsed() {
+	bool Animation::updateTimeElapsed() const {
 		return updateTimer.timeElapsed(); //Refer to Timer::timeElapsed()
+	}
+	
+	void swap(Animation& lhs, Animation& rhs) {
+		using std::swap;
+		swap(lhs.animationIds, rhs.animationIds);
+		swap(lhs.animation, rhs.animation);
+		swap(lhs.idIterator, rhs.idIterator);
+		swap(lhs.updateTimer, rhs.updateTimer);
 	}
 }

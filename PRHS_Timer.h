@@ -24,13 +24,13 @@ namespace PRHS {
 		void stopTimer();
 		void resetTimer();
 
-		bool timeElapsed();
-		int getTimeElapsed();
+		bool timeElapsed() const;
+		int getTimeElapsed() const;
 
-		int getDuration();
+		int getDuration() const;
 		void setDuration(const int& newDuration);
 
-		TimerState getState();
+		TimerState getState() const;
 
 		static int currentTime();
 	private:

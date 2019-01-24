@@ -177,7 +177,7 @@ namespace PRHS {
 		return output;
 	}
 
-	std::string Text::getText() {
+	std::string Text::getText() const {
 		return text;
 	}
 
@@ -191,6 +191,9 @@ namespace PRHS {
 		SDL_FreeSurface(tempSurface); //Free the temporary surface used to create the texture
 
 		//Calculate the new width and height of the entity
-		TTF_SizeText((*font), text.c_str(), &position.w, &position.h);
+		int tempW, tempH;
+		TTF_SizeText((*font), text.c_str(), &tempW, &tempH);
+		position.w = tempW;
+		position.h = tempH;
 	}
 }
