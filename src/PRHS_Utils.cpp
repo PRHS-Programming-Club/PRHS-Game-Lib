@@ -39,7 +39,7 @@ namespace PRHS {
 	}
 
 	FloatRect::operator Rect() const {
-		return Rect{ x, y, w, h, r };
+		return Rect{ int(x), int(y), int(w), int(h), int(r) };
 	}
 
 	void init() {
