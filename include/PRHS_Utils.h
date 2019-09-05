@@ -46,15 +46,6 @@ namespace PRHS {
 		double y;
 	};
 
-	struct FloatRect {
-		double x;
-		double y;
-		double w;
-		double h;
-		double r;
-		explicit operator Rect() const;
-	};
-
 	struct Input {
 		bool P1_BUTTON_1;
 		bool P1_BUTTON_2;
