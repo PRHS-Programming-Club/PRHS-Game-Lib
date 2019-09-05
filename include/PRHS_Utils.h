@@ -29,6 +29,21 @@ namespace PRHS {
 		int w;
 		int h;
 		int r;
+		explicit operator SDL_Rect() const;
+	};
+
+	struct FloatRect {
+		double x;
+		double y;
+		double w;
+		double h;
+		double r;
+		explicit operator Rect() const;
+	};
+
+	struct Vector2 {
+		double x;
+		double y;
 	};
 
 	struct FloatRect {
