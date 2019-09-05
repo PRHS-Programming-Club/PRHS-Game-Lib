@@ -38,6 +38,10 @@ namespace PRHS {
 		return output;
 	}
 
+	FloatRect::operator Rect() const {
+		return Rect{ x, y, w, h, r };
+	}
+
 	void init() {
 		static bool wasInit = false; //Static variable to store whether or not the library is already initialized. Maintains state between function calls
 

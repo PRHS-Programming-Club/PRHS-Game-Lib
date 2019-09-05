@@ -39,7 +39,7 @@ namespace PRHS {
 		Text operator+(const std::string& text);
 		Text operator+(const float& number);
 
-		std::string getText();
+		std::string getText() const;
 	private:
 
 		class FontManager {

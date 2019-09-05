@@ -28,6 +28,9 @@ namespace PRHS {
 			std::string line;
 			while (!inputFile.eof()) {
 				std::getline(inputFile, line); //Read next line
+				if (line == "") {
+					continue;
+				}
 
 				if (!textureManager.hasId(line)) { //Check if image was already loaded based on its path. The image's path is used as its ID
 					textureManager.createTexture(line, line); //If it was not already loaded, load the image. The TextureManager class will check if it is a valid file
